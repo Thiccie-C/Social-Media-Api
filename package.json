@@ -1,0 +1,25 @@
+{
+  "name": "social-media-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.3",
+    "mongoose": "^6.2.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thiccie-C/Social-Media-Api.git"
+  },
+  "author": "Cameron",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thiccie-C/Social-Media-Api/issues"
+  },
+  "homepage": "https://github.com/Thiccie-C/Social-Media-Api#readme"
+}
