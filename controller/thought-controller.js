@@ -10,7 +10,7 @@ const thoughtController = {
     },
 
     getThoughtsById({ params }, res) {
-        Thought.findOne({ _id: params.thoughtId})
+        Thought.findOne({ _id: params.id})
         .select('-__v')
         .sort({ _id: -1})
         .then(dbThoughtData => {
@@ -30,7 +30,7 @@ const thoughtController = {
         Thought.create(body)
         .then((ThoughtData) => {
             return User.findOneAndUpdate(
-                { _id: body.userId},
+                { _id: body.user},
                 { $addToSet: {thoughts: ThoughtData._id}},
                 { new: true}
                 );
@@ -58,11 +58,11 @@ const thoughtController = {
             .catch(err => res.json(err))
     },
 
-    removeThought({params}, res) {
+    removeThought({ params }, res) {
         Thought.findOneAndDelete({_id: params.thoughtId})
         .then(dbThoughtsData => {
             if (!dbThoughtsData) {
-                res.status(404).json({message: 'No thoughts with this particular ID!'});
+                res.status(404).json({message: 'No thoughts with this ID!'});
                 return;
             }
             res.json(dbThoughtsData);
