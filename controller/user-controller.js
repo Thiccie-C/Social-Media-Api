@@ -13,7 +13,7 @@ const userController = {
         })
         .select('-__v')
         .sort({ _id: -1})
-        ,then(dbUserData => res.json(dbUserData))
+        .then(dbUserData => res.json(dbUserData))
         .catch(err => {
             console.log(err);
             res.status(400).json(err)
@@ -75,7 +75,7 @@ const userController = {
                     Thought.deleteMany({username: dbUserData.username})
                 })
                 .then(() =>{
-                    res.json({ message: 'Usrr deleted successfully'})
+                    res.json({ message: 'User deleted successfully'})
                 });
             })
             .catch(err => {
@@ -92,29 +92,20 @@ const userController = {
             .then(dbUserData => {
                 if(!dbUserData) {
                     res.status(404).json({ message: 'No user found with this id!'})
+                    return
                 }
+                res.json(dbUserData)
             })
+            .catch(err => res.json(err))
     },
-    removeFriend({ params }, res) {
-        User.findOneAndDelete({ _id: params.thoughtId})
-        .then(deletedFriend => {
-            if(!deletedFriend) {
-                return res.status(404).json({ message: 'No friend found with this id'})
-            }
-            return User.findOneAndUpdate(
-                {friends: params.friendId},
-                { $pull: { frieneds: params.friendId}},
-                {new: true}
-                );
-        })
-        .then(dbUserData => {
-            if(!dbUserData) {
-                res.status(404).json({ message: 'No friend with this id'})
-                return
-            }
-            res.json(dbUserData)
-        })
-        .catch(err => res.json(err))
+    removeFriend( { params }, res) {
+        User.findOneAndUpdate(
+            { _id: params.userId },
+            { $pull: { friends: params.friendId }},
+            { new: true}
+        )
+        .then(dbUserData => res.json(dbUserData))
+        .catch(err => res.json(err));   
     }
 }
 
